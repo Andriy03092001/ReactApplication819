@@ -5,10 +5,17 @@ import ContactItem from "./Components/ContactItem/ContactItem";
 function App() {
   return (
     <Fragment>
-      <ContactItem></ContactItem>
-      <ContactItem></ContactItem>
-      <ContactItem></ContactItem>
-      <ContactItem></ContactItem>
+      <div className="card-deck">
+
+        <ContactItem></ContactItem>
+        <ContactItem></ContactItem>
+        <ContactItem></ContactItem>
+        <ContactItem></ContactItem>
+        <ContactItem></ContactItem>
+        <ContactItem></ContactItem>
+        <ContactItem></ContactItem>
+
+      </div>
     </Fragment>
   );
 }
