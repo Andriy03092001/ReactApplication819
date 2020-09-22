@@ -2,20 +2,23 @@ import React, { Fragment } from "react";
 import "./ContactList.css";
 import ContactItem from "../ContactItem/ContactItem";
 
-const ContactList = ({ DataContact }) => {
+const ContactList = ({ DataContact, changeFavorite }) => {
 
     var contact;
     if (DataContact != null) {
         contact = DataContact.map(item => {
             return (
                 <ContactItem
+                    key={item.id}
                     name={item.name}
                     phone={item.phone}
                     email={item.email}
                     address={item.address}
                     gender={item.gender}
                     avatar={item.avatar}
-                    isFavarite={item.isFavarite}>
+                    isFavarite={item.isFavarite}
+                    changeFavorite={() => changeFavorite(item.id)}
+                >
                 </ContactItem>
             );
         });

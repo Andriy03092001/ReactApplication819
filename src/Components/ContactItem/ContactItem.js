@@ -4,6 +4,7 @@ import "./ContactItem.css";
 class ContactItem extends Component {
 
     state = {
+        key: this.props.key,
         name: this.props.name,
         phone: this.props.phone,
         email: this.props.email,
@@ -22,18 +23,12 @@ class ContactItem extends Component {
         });
     }
 
-    setFavorite() {
-        this.setState({
-            isFavarite: !this.state.isFavarite
-        })
-    }
-
     render() {
         const { name, email, avatar, address, phone, gender } = this.state;
         const URL_image = `https://randomuser.me/api/portraits/${gender}/${avatar}.jpg`;
 
         var class_star = "fas fa-star fa-2x icon";
-        if (this.state.isFavarite === false) {
+        if (this.props.isFavarite === false) {
             class_star = "far fa-star fa-2x icon";
         }
 
@@ -49,10 +44,10 @@ class ContactItem extends Component {
                     </div>
                     <div className="card-footer">
                         <button className="btn btn-info" onClick={this.setRandomImage.bind(this)}>RANDOM IMAGE</button>
-                        <i className={class_star} onClick={this.setFavorite.bind(this)} ></i>
+                        <i className={class_star} onClick={this.props.changeFavorite} ></i>
                     </div>
                 </div>
-            </Fragment>
+            </Fragment >
         )
     }
 
