@@ -4,13 +4,13 @@ import "./ContactItem.css";
 class ContactItem extends Component {
 
     state = {
-        name: "Andrii Riabii",
-        phone: "+380 (05) 41 66 765",
-        email: "cuanid236316@gmail.com",
-        address: "Soborna 16",
-        gender: "men",
-        avatar: 3,
-        isFavarite: true
+        name: this.props.name,
+        phone: this.props.phone,
+        email: this.props.email,
+        address: this.props.address,
+        gender: this.props.gender,
+        avatar: this.props.avatar,
+        isFavarite: this.props.isFavarite
     }
 
 
@@ -20,12 +20,22 @@ class ContactItem extends Component {
         this.setState({
             avatar: randomAvatar
         });
+    }
 
+    setFavorite() {
+        this.setState({
+            isFavarite: !this.state.isFavarite
+        })
     }
 
     render() {
         const { name, email, avatar, address, phone, gender } = this.state;
         const URL_image = `https://randomuser.me/api/portraits/${gender}/${avatar}.jpg`;
+
+        var class_star = "fas fa-star fa-2x icon";
+        if (this.state.isFavarite === false) {
+            class_star = "far fa-star fa-2x icon";
+        }
 
         return (
             <Fragment>
@@ -39,6 +49,7 @@ class ContactItem extends Component {
                     </div>
                     <div className="card-footer">
                         <button className="btn btn-info" onClick={this.setRandomImage.bind(this)}>RANDOM IMAGE</button>
+                        <i className={class_star} onClick={this.setFavorite.bind(this)} ></i>
                     </div>
                 </div>
             </Fragment>
