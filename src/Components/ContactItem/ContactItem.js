@@ -45,6 +45,7 @@ class ContactItem extends Component {
                     <div className="card-footer">
                         <button className="btn btn-info" onClick={this.setRandomImage.bind(this)}>RANDOM IMAGE</button>
                         <i className={class_star} onClick={this.props.changeFavorite} ></i>
+                        <i class="fas fa-trash-alt fa-2x trash" onClick={this.props.removeContact}></i>
                     </div>
                 </div>
             </Fragment >

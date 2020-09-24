@@ -41,7 +41,8 @@ class App extends Component {
         avatar: 1,
         isFavarite: false
       }
-    ]
+    ],
+    isCheck: false
   }
 
   changeFavorite = id => {
@@ -53,7 +54,6 @@ class App extends Component {
     });
     console.log(this.state.List);
   }
-
 
   addContact = (name, address, phone, email, avatar) => {
 
@@ -84,6 +84,16 @@ class App extends Component {
     });
   }
 
+  removeContact = (id) => {
+    const indexRemoveElement = this.state.List.findIndex(item => item.id === id);
+    this.state.List.splice(indexRemoveElement, 1);
+
+    this.setState(
+      {
+        isCheck: true
+      }
+    )
+  }
 
   render() {
 
@@ -111,7 +121,8 @@ class App extends Component {
                 exact
                 render={() => <ContactList
                   DataContact={this.state.List}
-                  changeFavorite={this.changeFavorite.bind(this)}></ContactList>
+                  changeFavorite={this.changeFavorite.bind(this)}
+                  removeContact={this.removeContact.bind(this)}></ContactList>
                 }></Route>
 
               <Route
