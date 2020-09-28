@@ -11,14 +11,16 @@ class EditContact extends Component {
         address: this.props.currentContact.address,
         avatar: this.props.currentContact.avatar,
         email: this.props.currentContact.email,
-        isSended: false
+        gender: this.props.currentContact.gender,
+        isSended: false,
+        isFavarite: this.props.currentContact.isFavarite
     };
 
     sendData(event) {
         event.preventDefault();
-        const { name, address, phone, email, avatar } = this.state;
+        const { name, address, phone, email, avatar, gender, isFavarite, id } = this.state;
 
-
+        this.props.saveEditedContact(name, address, phone, email, avatar, gender, isFavarite, id)
 
         this.setState({
             isSended: true

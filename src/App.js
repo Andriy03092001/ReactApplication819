@@ -11,39 +11,49 @@ import EditContact from './Components/EditContact/EditContact';
 class App extends Component {
 
   state = {
-    List: [
-      {
-        id: 1,
-        name: "Andrii Riabii",
-        phone: "+380 (05) 41 66 765",
-        email: "cuanid236316@gmail.com",
-        address: "Soborna 16",
-        gender: "men",
-        avatar: 3,
-        isFavarite: false
-      },
-      {
-        id: 2,
-        name: "Kate Yaroshik",
-        phone: "+380 (05) 23 11 885",
-        email: "kate@gmail.com",
-        address: "Soborna 35",
-        gender: "women",
-        avatar: 28,
-        isFavarite: false
-      },
-      {
-        id: 3,
-        name: "Vlad Lemonov",
-        phone: "+380 (15) 11 11 222",
-        email: "vlad@gmail.com",
-        address: "Soborna 35",
-        gender: "men",
-        avatar: 1,
-        isFavarite: false
-      }
-    ],
+    List: [],
     currentContact: null
+  }
+
+  URL = "https://contactbook-9f583.firebaseio.com/list.json";
+
+  getContacts = () => {
+    fetch(this.URL, { method: "GET" })
+      .then(data => {
+        return data.json();
+      })
+      .then(contacts => {
+        console.log("My contacts from firebase: ", contacts)
+        this.setState({
+          List: contacts
+        })
+      })
+      .catch(error => {
+        console.log("Error: ", error)
+      })
+  }
+
+  componentDidMount() {
+    this.getContacts();
+  }
+
+  saveChanges(ListData) {
+    fetch(this.URL, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(ListData)
+    }).then(data => {
+      console.log(data)
+    })
+      .catch(error => {
+        console.log(error)
+      })
+
+
+    console.log("save changes");
   }
 
   changeFavorite = id => {
@@ -55,7 +65,6 @@ class App extends Component {
     });
     console.log(this.state.List);
   }
-
   addContact = (name, address, phone, email, avatar) => {
 
     const newContact = {
@@ -68,15 +77,14 @@ class App extends Component {
       avatar: avatar,
       isFavorite: false
     };
-
     console.log("NEW CONTACT ->", newContact);
-
     let tempList = [];
     if (this.state.List != null) {
       tempList = this.state.List.slice();
     }
 
     tempList.push(newContact);
+    this.saveChanges(tempList);
 
     this.setState(state => {
       return {
@@ -89,11 +97,13 @@ class App extends Component {
     const indexRemoveElement = this.state.List.findIndex(item => item.id === id);
     this.state.List.splice(indexRemoveElement, 1);
 
+    this.saveChanges(this.state.List);
     this.setState(
       {
         isCheck: true
       }
     )
+
   }
 
   editContact = (id) => {
@@ -103,6 +113,28 @@ class App extends Component {
     this.setState({
       currentContact: currentContact
     })
+  }
+
+  saveEditedContact = (name, address, phone, email, avatar, gender, isFavarite, id) => {
+
+    const editedContact = {
+      id: id,
+      name: name,
+      phone: phone,
+      email: email,
+      address: address,
+      gender: gender,
+      avatar: avatar,
+      isFavarite: isFavarite
+    }
+
+    const contacts = this.state.List.map((c) => {
+      if (c.id === id) {
+        return editedContact;
+      }
+      return c;
+    });
+    this.setState({ List: contacts });
   }
 
   render() {
@@ -157,7 +189,8 @@ class App extends Component {
                 exact
                 render={() =>
                   <EditContact
-                    currentContact={this.state.currentContact}></EditContact>}>
+                    currentContact={this.state.currentContact}
+                    saveEditedContact={this.saveEditedContact}></EditContact>}>
               </Route>
 
               <Route
