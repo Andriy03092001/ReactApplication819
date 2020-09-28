@@ -6,6 +6,7 @@ import uuid from "react-uuid";
 
 import Page404 from "./Components/Page404/Page404";
 import AddContact from "./Components/AddContact/AddContact";
+import EditContact from './Components/EditContact/EditContact';
 
 class App extends Component {
 
@@ -28,7 +29,7 @@ class App extends Component {
         email: "kate@gmail.com",
         address: "Soborna 35",
         gender: "women",
-        avatar: 6,
+        avatar: 28,
         isFavarite: false
       },
       {
@@ -42,7 +43,7 @@ class App extends Component {
         isFavarite: false
       }
     ],
-    isCheck: false
+    currentContact: null
   }
 
   changeFavorite = id => {
@@ -95,6 +96,15 @@ class App extends Component {
     )
   }
 
+  editContact = (id) => {
+    const index = this.state.List.findIndex(item => item.id === id);
+    const currentContact = this.state.List[index];
+
+    this.setState({
+      currentContact: currentContact
+    })
+  }
+
   render() {
 
     return (
@@ -122,7 +132,8 @@ class App extends Component {
                 render={() => <ContactList
                   DataContact={this.state.List}
                   changeFavorite={this.changeFavorite.bind(this)}
-                  removeContact={this.removeContact.bind(this)}></ContactList>
+                  removeContact={this.removeContact.bind(this)}
+                  editContact={this.editContact.bind(this)}></ContactList>
                 }></Route>
 
               <Route
@@ -139,6 +150,15 @@ class App extends Component {
                 render={() =>
                   <AddContact addContact={this.addContact}></AddContact>
                 }></Route>
+
+
+              <Route
+                path="/editContact"
+                exact
+                render={() =>
+                  <EditContact
+                    currentContact={this.state.currentContact}></EditContact>}>
+              </Route>
 
               <Route
                 path="*"

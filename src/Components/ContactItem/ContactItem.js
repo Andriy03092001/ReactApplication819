@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import "./ContactItem.css";
+import { Link } from "react-router-dom";
 
 class ContactItem extends Component {
 
@@ -45,7 +46,10 @@ class ContactItem extends Component {
                     <div className="card-footer">
                         <button className="btn btn-info" onClick={this.setRandomImage.bind(this)}>RANDOM IMAGE</button>
                         <i className={class_star} onClick={this.props.changeFavorite} ></i>
-                        <i class="fas fa-trash-alt fa-2x trash" onClick={this.props.removeContact}></i>
+                        <i className="fas fa-trash-alt fa-2x trash" onClick={this.props.removeContact}></i>
+                        <Link to="/editContact">
+                            <i className="fas fa-edit fa-2x edit" onClick={this.props.editContact}></i>
+                        </Link>
                     </div>
                 </div>
             </Fragment >

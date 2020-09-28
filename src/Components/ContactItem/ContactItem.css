@@ -6,6 +6,10 @@
     color: rgb(158, 41, 41);
 }
 
+.edit{
+    color:green;
+}
+
 i {
     margin:10px;
     margin-top: 20px;
